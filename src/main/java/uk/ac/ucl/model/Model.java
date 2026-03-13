@@ -1,50 +1,73 @@
 package uk.ac.ucl.model;
 
-import java.io.Reader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 
+// Stores patient data loaded from a CSV file and provides query methods
+// used by the servlets.
 public class Model
 {
-  // The example code in this class should be replaced by your Model class code.
-  // The data should be stored in a suitable data structure.
+  // The DataFrame holding all patient data once the file has been loaded.
+  private DataFrame dataFrame;
 
-  public List<String> getPatientNames()
+  // Loads the CSV file at fileName into the internal DataFrame.
+  // Called once by ModelFactory during initialisation.
+  public void readFile(String fileName)
   {
-    return readFile("data/patients100.csv");
+    DataLoader loader = new DataLoader(fileName);
+    dataFrame = loader.load();
   }
 
-  // This method illustrates how to read csv data from a file.
-  // The data files are stored in the root directory of the project (the directory your project is in),
-  // in the directory named data.
-  public List<String> readFile(String fileName)
+  // Returns a list of formatted patient names (PREFIX FIRST LAST) for all rows.
+  public ArrayList<String> getPatientNames()
   {
-    List<String> data = new ArrayList<>();
+    ArrayList<String> names = new ArrayList<>();
+    int rowCount = dataFrame.getRowCount();
 
-    try (Reader reader = new FileReader(fileName);
-         CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT))
+    for (int row = 0; row < rowCount; row = row + 1)
     {
-      for (CSVRecord csvRecord : csvParser)
-      {
-        // The first row of the file contains the column headers, so is not actual data.
-        data.add(csvRecord.get(0));
-      }
-    } catch (IOException e)
-    {
-      e.printStackTrace();
+      names.add(buildName(row));
     }
-    return data;
+
+    return names;
   }
 
-  // This also returns dummy data. The real version should use the keyword parameter to search
-  // the data and return a list of matching items.
-  public List<String> searchFor(String keyword)
+  // Returns a list of patient names where FIRST or LAST contains the keyword
+  // (case-insensitive).
+  public ArrayList<String> searchFor(String keyword)
   {
-    return List.of("Search keyword is: "+ keyword, "result1", "result2", "result3");
+    ArrayList<String> results = new ArrayList<>();
+    String lowerKeyword = keyword.toLowerCase();
+    int rowCount = dataFrame.getRowCount();
+
+    for (int row = 0; row < rowCount; row = row + 1)
+    {
+      String firstName = dataFrame.getValue("FIRST", row).toLowerCase();
+      String lastName  = dataFrame.getValue("LAST",  row).toLowerCase();
+
+      if (firstName.contains(lowerKeyword) || lastName.contains(lowerKeyword))
+      {
+        results.add(buildName(row));
+      }
+    }
+
+    return results;
+  }
+
+  // Formats a display name for the given row.
+  // Returns "PREFIX FIRST LAST" if prefix is present, or "FIRST LAST" if blank.
+  private String buildName(int row)
+  {
+    String prefix = dataFrame.getValue("PREFIX", row).trim();
+    String first  = dataFrame.getValue("FIRST",  row).trim();
+    String last   = dataFrame.getValue("LAST",   row).trim();
+
+    if (prefix.isEmpty())
+    {
+      return first + " " + last;
+    }
+    else
+    {
+      return prefix + " " + first + " " + last;
+    }
   }
 }
