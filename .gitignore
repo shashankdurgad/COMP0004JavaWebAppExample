@@ -178,6 +178,13 @@ $RECYCLE.BIN/
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+# Tomcat working directory (auto-generated at runtime, never hand-written)
+tomcat.*/
+
+# Application log files
+logfile.txt
+logfile.txt.lck
+
 ### SublimeText template
 # Cache files for Sublime Text
 *.tmlanguage.cache
