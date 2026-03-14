@@ -92,6 +92,28 @@ table.stats-table tr:nth-child(even) {
   background: #f0f0f0;
 }
 
+/* Edit / Delete action bar on patient detail page */
+.action-bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 16px 0;
+}
+
+.btn-delete {
+  background: #c0392b;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-delete:hover {
+  background: #96281b;
+}
+
 /* Error box */
 .error-box {
   background: #ffe0e0;

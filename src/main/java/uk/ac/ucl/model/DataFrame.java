@@ -65,4 +65,13 @@ public class DataFrame
   {
     getColumn(columnName).addRowValue(value);
   }
+
+  // Removes the row at the given index from every column.
+  public void removeRow(int row)
+  {
+    for (String name : columns.keySet())
+    {
+      columns.get(name).removeRowValue(row);
+    }
+  }
 }

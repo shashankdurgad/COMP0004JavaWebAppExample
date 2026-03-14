@@ -48,4 +48,10 @@ public class Column
   {
     rows.add(value);
   }
+
+  // Removes the value at the given row index, shifting later rows up.
+  public void removeRowValue(int rowNumber)
+  {
+    rows.remove(rowNumber);
+  }
 }

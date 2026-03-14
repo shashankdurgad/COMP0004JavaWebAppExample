@@ -10,6 +10,7 @@
 <jsp:include page="/header.jsp"/>
 <div class="main">
   <h2>All Patients</h2>
+  <p><a href="addpatient">+ Add New Patient</a></p>
   <%
     String errorMessage = (String) request.getAttribute("errorMessage");
     if (errorMessage != null)

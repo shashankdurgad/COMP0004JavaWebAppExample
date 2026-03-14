@@ -2,6 +2,10 @@ package uk.ac.ucl.model;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.io.FileWriter;
+import java.io.IOException;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 
 // Stores patient data loaded from a CSV file and provides query methods
 // used by the servlets.
@@ -10,12 +14,72 @@ public class Model
   // The DataFrame holding all patient data once the file has been loaded.
   private DataFrame dataFrame;
 
+  // The path to the CSV file, stored so saveToFile() knows where to write.
+  private String filePath;
+
   // Loads the CSV file at fileName into the internal DataFrame.
   // Called once by ModelFactory during initialisation.
   public void readFile(String fileName)
   {
+    this.filePath = fileName;
     DataLoader loader = new DataLoader(fileName);
     dataFrame = loader.load();
+  }
+
+  // Returns the column names in order — used by servlets to build add/edit forms.
+  public ArrayList<String> getColumnNames()
+  {
+    return dataFrame.getColumnNames();
+  }
+
+  // Appends a new patient row. columnValues must be in the same order as getColumnNames().
+  // Saves the updated data back to the CSV file.
+  public void addPatient(ArrayList<String> columnValues) throws IOException
+  {
+    ArrayList<String> cols = dataFrame.getColumnNames();
+    for (int i = 0; i < cols.size(); i = i + 1)
+    {
+      dataFrame.addValue(cols.get(i), columnValues.get(i));
+    }
+    saveToFile();
+  }
+
+  // Overwrites all fields of an existing row. columnValues must be in the same order as getColumnNames().
+  // Saves the updated data back to the CSV file.
+  public void updatePatient(int row, ArrayList<String> columnValues) throws IOException
+  {
+    ArrayList<String> cols = dataFrame.getColumnNames();
+    for (int i = 0; i < cols.size(); i = i + 1)
+    {
+      dataFrame.putValue(cols.get(i), row, columnValues.get(i));
+    }
+    saveToFile();
+  }
+
+  // Removes the patient row at the given index and saves the CSV file.
+  public void deletePatient(int row) throws IOException
+  {
+    dataFrame.removeRow(row);
+    saveToFile();
+  }
+
+  // Writes the current DataFrame back to the CSV file (header row + all data rows).
+  private void saveToFile() throws IOException
+  {
+    try (FileWriter writer = new FileWriter(filePath);
+         CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT))
+    {
+      printer.printRecord(dataFrame.getColumnNames());
+      for (int row = 0; row < dataFrame.getRowCount(); row = row + 1)
+      {
+        ArrayList<String> rowValues = new ArrayList<>();
+        for (String col : dataFrame.getColumnNames())
+        {
+          rowValues.add(dataFrame.getValue(col, row));
+        }
+        printer.printRecord(rowValues);
+      }
+    }
   }
 
   // Returns a list of formatted patient names (PREFIX FIRST LAST) for all rows.

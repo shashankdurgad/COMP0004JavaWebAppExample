@@ -29,6 +29,14 @@
       }
     %>
   </dl>
+  <div class="action-bar">
+    <a href="editpatient?row=<%= request.getAttribute("row") %>">Edit</a>
+    <form method="POST" action="deletepatient" style="display:inline;"
+          onsubmit="return confirm('Delete this patient? This cannot be undone.');">
+      <input type="hidden" name="row" value="<%= request.getAttribute("row") %>">
+      <button type="submit" class="btn-delete">Delete</button>
+    </form>
+  </div>
   <p><a href="patientList">&#8592; Back to patient list</a></p>
 </div>
 <jsp:include page="/footer.jsp"/>
