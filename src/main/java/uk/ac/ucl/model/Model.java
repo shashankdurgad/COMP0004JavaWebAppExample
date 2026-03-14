@@ -31,26 +31,53 @@ public class Model
     return names;
   }
 
-  // Returns a list of patient names where FIRST or LAST contains the keyword
-  // (case-insensitive).
-  public ArrayList<String> searchFor(String keyword)
+  // Searches all columns of every patient row for the given search string.
+  // Multiple keywords can be entered separated by spaces (e.g. "Alice Massachusetts").
+  // A row matches only if ALL keywords are found somewhere in that row's data
+  // (case-insensitive). Returns a list of matching formatted patient names.
+  public ArrayList<String> searchFor(String searchString)
   {
     ArrayList<String> results = new ArrayList<>();
-    String lowerKeyword = keyword.toLowerCase();
+    String[] keywords = searchString.trim().toLowerCase().split("\\s+");
+    ArrayList<String> columns = dataFrame.getColumnNames();
     int rowCount = dataFrame.getRowCount();
 
     for (int row = 0; row < rowCount; row = row + 1)
     {
-      String firstName = dataFrame.getValue("FIRST", row).toLowerCase();
-      String lastName  = dataFrame.getValue("LAST",  row).toLowerCase();
-
-      if (firstName.contains(lowerKeyword) || lastName.contains(lowerKeyword))
+      if (rowMatchesAllKeywords(row, keywords, columns))
       {
         results.add(buildName(row));
       }
     }
 
     return results;
+  }
+
+  // Returns true if every keyword in the array is found in at least one column
+  // of the given row (case-insensitive).
+  private boolean rowMatchesAllKeywords(int row, String[] keywords, ArrayList<String> columns)
+  {
+    for (int k = 0; k < keywords.length; k = k + 1)
+    {
+      String keyword = keywords[k];
+      boolean keywordFound = false;
+
+      for (int c = 0; c < columns.size(); c = c + 1)
+      {
+        String cellValue = dataFrame.getValue(columns.get(c), row).toLowerCase();
+        if (cellValue.contains(keyword))
+        {
+          keywordFound = true;
+          break;
+        }
+      }
+
+      if (!keywordFound)
+      {
+        return false;
+      }
+    }
+    return true;
   }
 
   // Returns all field values for a single patient row as "COLUMN: value" strings.
