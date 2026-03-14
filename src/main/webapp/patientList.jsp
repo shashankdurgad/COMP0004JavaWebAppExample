@@ -1,36 +1,37 @@
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
 <head>
   <jsp:include page="/meta.jsp"/>
-  <title>Patient Data App</title>
+  <title>Patient List - Patient Data App</title>
 </head>
 <body>
 <jsp:include page="/header.jsp"/>
 <div class="main">
-  <h2>Patients:</h2>
+  <h2>All Patients</h2>
   <%
     String errorMessage = (String) request.getAttribute("errorMessage");
     if (errorMessage != null)
     {
   %>
-      <p style="color: red;"><%= errorMessage %></p>
+      <div class="error-box"><p><%= errorMessage %></p></div>
   <%
     }
   %>
   <ul>
     <%
-      List<String> patients = (List<String>) request.getAttribute("patientNames");
+      ArrayList<String> patients = (ArrayList<String>) request.getAttribute("patientNames");
       if (patients != null)
       {
+        int i = 0;
         for (String patient : patients)
         {
-          String href = "dummypage.html";
     %>
-    <li><a href="<%=href%>"><%=patient%></a>
-    </li>
-    <%  }
+          <li><a href="patient?row=<%= i %>"><%= patient %></a></li>
+    <%
+          i = i + 1;
+        }
       }
     %>
   </ul>
