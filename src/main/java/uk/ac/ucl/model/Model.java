@@ -1,6 +1,7 @@
 package uk.ac.ucl.model;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 // Stores patient data loaded from a CSV file and provides query methods
 // used by the servlets.
@@ -133,6 +134,144 @@ public class Model
     stats.add("Deceased: " + deceased);
     stats.add("Living: " + (total - deceased));
     return stats;
+  }
+
+  // Returns a formatted string describing the oldest living patient
+  // (i.e. earliest BIRTHDATE among patients with no DEATHDATE).
+  // BIRTHDATEs are in YYYY-MM-DD format so lexicographic comparison works correctly.
+  public String getOldestLivingPatient()
+  {
+    String oldestBirthdate = "";
+    int oldestRow = -1;
+    int rowCount = dataFrame.getRowCount();
+
+    for (int row = 0; row < rowCount; row = row + 1)
+    {
+      String birthdate = dataFrame.getValue("BIRTHDATE", row).trim();
+      String deathdate = dataFrame.getValue("DEATHDATE", row).trim();
+
+      if (birthdate.isEmpty() || !deathdate.isEmpty())
+      {
+        continue; // skip deceased or missing birthdate
+      }
+
+      if (oldestRow == -1 || birthdate.compareTo(oldestBirthdate) < 0)
+      {
+        oldestBirthdate = birthdate;
+        oldestRow = row;
+      }
+    }
+
+    if (oldestRow == -1)
+    {
+      return "No living patients found.";
+    }
+    return buildName(oldestRow) + " (born " + oldestBirthdate + ")";
+  }
+
+  // Returns a formatted string describing the oldest patient overall
+  // (earliest BIRTHDATE across all rows, living or deceased).
+  public String getOldestPatientOverall()
+  {
+    String oldestBirthdate = "";
+    int oldestRow = -1;
+    int rowCount = dataFrame.getRowCount();
+
+    for (int row = 0; row < rowCount; row = row + 1)
+    {
+      String birthdate = dataFrame.getValue("BIRTHDATE", row).trim();
+      if (birthdate.isEmpty())
+      {
+        continue;
+      }
+      if (oldestRow == -1 || birthdate.compareTo(oldestBirthdate) < 0)
+      {
+        oldestBirthdate = birthdate;
+        oldestRow = row;
+      }
+    }
+
+    if (oldestRow == -1)
+    {
+      return "No patients found.";
+    }
+    return buildName(oldestRow) + " (born " + oldestBirthdate + ")";
+  }
+
+  // Returns how many patients live in each city, as "City: N patient(s)" strings.
+  // Ordered by the first occurrence of each city in the data.
+  public ArrayList<String> getPatientCountByCity()
+  {
+    LinkedHashMap<String, Integer> cityCounts = new LinkedHashMap<>();
+    int rowCount = dataFrame.getRowCount();
+
+    for (int row = 0; row < rowCount; row = row + 1)
+    {
+      String city = dataFrame.getValue("CITY", row).trim();
+      if (city.isEmpty()) { continue; }
+
+      if (cityCounts.containsKey(city))
+      {
+        cityCounts.put(city, cityCounts.get(city) + 1);
+      }
+      else
+      {
+        cityCounts.put(city, 1);
+      }
+    }
+
+    ArrayList<String> result = new ArrayList<>();
+    for (String city : cityCounts.keySet())
+    {
+      result.add(city + ": " + cityCounts.get(city) + " patient(s)");
+    }
+    return result;
+  }
+
+  // Returns the names of all patients living in the given city.
+  public ArrayList<String> getPatientsInCity(String city)
+  {
+    ArrayList<String> results = new ArrayList<>();
+    int rowCount = dataFrame.getRowCount();
+
+    for (int row = 0; row < rowCount; row = row + 1)
+    {
+      if (dataFrame.getValue("CITY", row).trim().equalsIgnoreCase(city))
+      {
+        results.add(buildName(row));
+      }
+    }
+    return results;
+  }
+
+  // Returns the number of patients for each marital status,
+  // as "Status: N patient(s)" strings.
+  public ArrayList<String> getPatientCountByMaritalStatus()
+  {
+    LinkedHashMap<String, Integer> counts = new LinkedHashMap<>();
+    int rowCount = dataFrame.getRowCount();
+
+    for (int row = 0; row < rowCount; row = row + 1)
+    {
+      String status = dataFrame.getValue("MARITAL", row).trim();
+      if (status.isEmpty()) { status = "Unknown"; }
+
+      if (counts.containsKey(status))
+      {
+        counts.put(status, counts.get(status) + 1);
+      }
+      else
+      {
+        counts.put(status, 1);
+      }
+    }
+
+    ArrayList<String> result = new ArrayList<>();
+    for (String status : counts.keySet())
+    {
+      result.add(status + ": " + counts.get(status) + " patient(s)");
+    }
+    return result;
   }
 
   // Formats a display name for the given row.
