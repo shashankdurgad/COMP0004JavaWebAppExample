@@ -63,6 +63,13 @@ public class Model
     saveToFile();
   }
 
+  // Exports the current DataFrame to data/patients.json using JSONWriter.
+  public void saveToJSON() throws IOException
+  {
+    JSONWriter writer = new JSONWriter(dataFrame, "data/patients.json");
+    writer.write();
+  }
+
   // Writes the current DataFrame back to the CSV file (header row + all data rows).
   private void saveToFile() throws IOException
   {

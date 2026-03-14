@@ -184,9 +184,12 @@ target/
 # Tomcat working directory (auto-generated at runtime, never hand-written)
 tomcat.*/
 
-# Application log files
-logfile.txt
-logfile.txt.lck
+# Application log files (including rotated copies created by Java FileHandler)
+logfile.txt*
+
+# Generated data exports and runtime-modified data files
+data/patients.json
+data/patients100.csv
 
 ### SublimeText template
 # Cache files for Sublime Text
