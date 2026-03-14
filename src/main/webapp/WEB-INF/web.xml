@@ -1,12 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
-         version="2.4">
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+         version="5.0"
+         metadata-complete="true">
 
-  <display-name>MoonShot</display-name>
-  <description>
-    MoonShot on the Web
-  </description>
+  <display-name>Patient Data App</display-name>
+
+  <servlet>
+    <servlet-name>ViewPatientListServlet</servlet-name>
+    <servlet-class>uk.ac.ucl.servlets.ViewPatientListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewPatientListServlet</servlet-name>
+    <url-pattern>/patientList</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ViewPatientServlet</servlet-name>
+    <servlet-class>uk.ac.ucl.servlets.ViewPatientServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewPatientServlet</servlet-name>
+    <url-pattern>/patient</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>SearchServlet</servlet-name>
+    <servlet-class>uk.ac.ucl.servlets.SearchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SearchServlet</servlet-name>
+    <url-pattern>/runsearch</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>FilterServlet</servlet-name>
+    <servlet-class>uk.ac.ucl.servlets.FilterServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FilterServlet</servlet-name>
+    <url-pattern>/filter</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AnalyticsServlet</servlet-name>
+    <servlet-class>uk.ac.ucl.servlets.AnalyticsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AnalyticsServlet</servlet-name>
+    <url-pattern>/analytics</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>CityServlet</servlet-name>
+    <servlet-class>uk.ac.ucl.servlets.CityServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CityServlet</servlet-name>
+    <url-pattern>/city</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>AddPatientServlet</servlet-name>
+    <servlet-class>uk.ac.ucl.servlets.AddPatientServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddPatientServlet</servlet-name>
+    <url-pattern>/addpatient</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>EditPatientServlet</servlet-name>
+    <servlet-class>uk.ac.ucl.servlets.EditPatientServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditPatientServlet</servlet-name>
+    <url-pattern>/editpatient</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DeletePatientServlet</servlet-name>
+    <servlet-class>uk.ac.ucl.servlets.DeletePatientServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeletePatientServlet</servlet-name>
+    <url-pattern>/deletepatient</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ExportServlet</servlet-name>
+    <servlet-class>uk.ac.ucl.servlets.ExportServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ExportServlet</servlet-name>
+    <url-pattern>/exportjson</url-pattern>
+  </servlet-mapping>
 
 </web-app>

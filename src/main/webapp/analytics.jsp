@@ -3,12 +3,32 @@
 <html>
 <head>
   <jsp:include page="/meta.jsp"/>
-  <title>Insights - Patient Data App</title>
+  <title>Analytics - Patient Data App</title>
 </head>
 <body>
 <jsp:include page="/header.jsp"/>
 <div class="main">
-  <h2>Data Insights</h2>
+  <h2>Analytics</h2>
+
+  <h3>Summary Statistics</h3>
+  <table class="stats-table">
+    <tr><th>Metric</th><th>Value</th></tr>
+    <%
+      ArrayList<String> stats = (ArrayList<String>) request.getAttribute("stats");
+      if (stats != null)
+      {
+        for (String stat : stats)
+        {
+          int colonIndex = stat.indexOf(":");
+          String label = stat.substring(0, colonIndex).trim();
+          String value = stat.substring(colonIndex + 1).trim();
+    %>
+          <tr><td><%= label %></td><td><%= value %></td></tr>
+    <%
+        }
+      }
+    %>
+  </table>
 
   <h3>Oldest Patients</h3>
   <table class="stats-table">
@@ -24,7 +44,7 @@
   </table>
 
   <h3>Patients by City</h3>
-  <p>Click a city to see its patients.</p>
+  <p class="text-muted">Click a city to see its patients.</p>
   <table class="stats-table">
     <tr><th>City</th><th>Count</th></tr>
     <%
@@ -67,7 +87,7 @@
     %>
   </table>
 
-  <p><a href="index.html">Back to home</a></p>
+  <a href="index.html" class="back-link">&#8592; Back to home</a>
 </div>
 <jsp:include page="/footer.jsp"/>
 </body>

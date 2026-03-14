@@ -1,10 +1,14 @@
 package uk.ac.ucl.model;
 
-import java.io.FileWriter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-// Writes a DataFrame to a file in JSON format.
+// Writes a DataFrame to a file in JSON format using Jackson.
 // The output is a JSON array where each element is an object
 // representing one patient row (column name → value).
 public class JSONWriter
@@ -22,52 +26,22 @@ public class JSONWriter
   // Each array element is one patient row; keys are column names, values are cell values.
   public void write() throws IOException
   {
+    ObjectMapper mapper = new ObjectMapper();
+    ArrayNode array = mapper.createArrayNode();
+
     ArrayList<String> columns = dataFrame.getColumnNames();
     int rowCount = dataFrame.getRowCount();
 
-    StringBuilder sb = new StringBuilder();
-    sb.append("[\n");
-
     for (int row = 0; row < rowCount; row = row + 1)
     {
-      sb.append("  {\n");
-
-      for (int col = 0; col < columns.size(); col = col + 1)
+      ObjectNode node = mapper.createObjectNode();
+      for (String column : columns)
       {
-        String key   = escape(columns.get(col));
-        String value = escape(dataFrame.getValue(columns.get(col), row));
-        sb.append("    \"").append(key).append("\": \"").append(value).append("\"");
-        if (col < columns.size() - 1)
-        {
-          sb.append(",");
-        }
-        sb.append("\n");
+        node.put(column, dataFrame.getValue(column, row));
       }
-
-      sb.append("  }");
-      if (row < rowCount - 1)
-      {
-        sb.append(",");
-      }
-      sb.append("\n");
+      array.add(node);
     }
 
-    sb.append("]\n");
-
-    try (FileWriter writer = new FileWriter(filePath))
-    {
-      writer.write(sb.toString());
-    }
-  }
-
-  // Escapes characters that would break a JSON quoted string value.
-  // Must escape backslash first, before any other replacement adds new backslashes.
-  private String escape(String s)
-  {
-    return s.replace("\\", "\\\\")
-            .replace("\"", "\\\"")
-            .replace("\n", "\\n")
-            .replace("\r", "\\r")
-            .replace("\t", "\\t");
+    mapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), array);
   }
 }

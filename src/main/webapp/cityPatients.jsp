@@ -28,7 +28,7 @@
       }
     %>
   </ul>
-  <p><a href="insights">&#8592; Back to Insights</a></p>
+  <p><a href="analytics">&#8592; Back to Analytics</a></p>
 </div>
 <jsp:include page="/footer.jsp"/>
 </body>
