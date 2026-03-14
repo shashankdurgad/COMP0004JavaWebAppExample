@@ -1,15 +1,50 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>Patient Data App</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search - Patient Data App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="index.html" class="site-logo">Patient Data App</a>
+  </div>
+</header>
+<nav class="nav">
+  <ul>
+    <li><a href="patientList">All Patients</a></li>
+    <li><a href="search.html">Search</a></li>
+    <li><a href="filter?gender=M">Male Patients</a></li>
+    <li><a href="filter?gender=F">Female Patients</a></li>
+    <li><a href="stats">Statistics</a></li>
+    <li><a href="insights">Insights</a></li>
+    <li><a href="exportjson">Export JSON</a></li>
+  </ul>
+</nav>
+
 <div class="main">
-  <h1>Search</h1>
-  <form method="GET" action="/runsearch">
-    <input type="text" name="searchstring" placeholder="Enter search keyword here"/>
-    <input type="submit" value="Search"/>
+  <h2>Search Patients</h2>
+  <p class="text-muted">Enter one or more keywords. A patient matches only if <em>all</em> keywords are found somewhere in their record.</p>
+  <form method="GET" action="/runsearch" class="form-stack">
+    <div class="form-group">
+      <label for="searchstring">Search keywords</label>
+      <input type="text" id="searchstring" name="searchstring" placeholder="e.g. Alice Massachusetts">
+    </div>
+    <div>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
   </form>
 </div>
+
+<footer class="site-footer">
+  <p>Patient Data App &mdash; COMP0004 coursework</p>
+</footer>
+
 </body>
 </html>

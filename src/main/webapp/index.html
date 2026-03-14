@@ -2,23 +2,80 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Patient Data App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1 class="site-title">Patient Data App</h1>
 
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="index.html" class="site-logo">Patient Data App</a>
+  </div>
+</header>
 <nav class="nav">
   <ul>
     <li><a href="patientList">All Patients</a></li>
-    <li><a href="search.html">Search by Name</a></li>
+    <li><a href="search.html">Search</a></li>
     <li><a href="filter?gender=M">Male Patients</a></li>
     <li><a href="filter?gender=F">Female Patients</a></li>
     <li><a href="stats">Statistics</a></li>
     <li><a href="insights">Insights</a></li>
-    <li><a href="exportjson">Export to JSON</a></li>
+    <li><a href="exportjson">Export JSON</a></li>
   </ul>
 </nav>
+
+<div class="main">
+  <div class="home-intro">
+    <h2>Welcome</h2>
+    <p>Browse, search, and manage patient records. Use the cards below or the navigation above to get started.</p>
+  </div>
+
+  <div class="card-grid">
+    <a href="patientList" class="feature-card">
+      <div class="feature-card__icon">&#128101;</div>
+      <div class="feature-card__title">All Patients</div>
+      <p class="feature-card__desc">View and manage the full patient list.</p>
+    </a>
+    <a href="search.html" class="feature-card">
+      <div class="feature-card__icon">&#128269;</div>
+      <div class="feature-card__title">Search</div>
+      <p class="feature-card__desc">Find patients by name or any keyword.</p>
+    </a>
+    <a href="filter?gender=M" class="feature-card">
+      <div class="feature-card__icon">&#128104;</div>
+      <div class="feature-card__title">Male Patients</div>
+      <p class="feature-card__desc">Filter the list to male patients only.</p>
+    </a>
+    <a href="filter?gender=F" class="feature-card">
+      <div class="feature-card__icon">&#128105;</div>
+      <div class="feature-card__title">Female Patients</div>
+      <p class="feature-card__desc">Filter the list to female patients only.</p>
+    </a>
+    <a href="stats" class="feature-card">
+      <div class="feature-card__icon">&#128200;</div>
+      <div class="feature-card__title">Statistics</div>
+      <p class="feature-card__desc">Summary counts by gender and status.</p>
+    </a>
+    <a href="insights" class="feature-card">
+      <div class="feature-card__icon">&#129504;</div>
+      <div class="feature-card__title">Insights</div>
+      <p class="feature-card__desc">Oldest patients, city and marital breakdowns.</p>
+    </a>
+    <a href="exportjson" class="feature-card">
+      <div class="feature-card__icon">&#128196;</div>
+      <div class="feature-card__title">Export JSON</div>
+      <p class="feature-card__desc">Save all patient data to a JSON file.</p>
+    </a>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>Patient Data App &mdash; COMP0004 coursework</p>
+</footer>
 
 </body>
 </html>

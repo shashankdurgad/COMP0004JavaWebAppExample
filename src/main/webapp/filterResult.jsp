@@ -14,26 +14,27 @@
     ArrayList<String> patientNames = (ArrayList<String>) request.getAttribute("patientNames");
     int count = (patientNames != null) ? patientNames.size() : 0;
   %>
-  <h2>Filter: <%= genderLabel %> Patients</h2>
-  <p><%= count %> patient(s) found.</p>
-  <ul>
+  <div class="section-header">
+    <h2><%= genderLabel %> Patients</h2>
+    <span class="badge"><%= count %> patient(s)</span>
+  </div>
+  <ul class="patient-list">
     <%
       if (patientNames != null)
       {
         for (String name : patientNames)
         {
     %>
-          <li><%= name %></li>
+          <li><span style="display:block; padding: 12px 18px; font-weight:500;"><%= name %></span></li>
     <%
         }
       }
     %>
   </ul>
-  <p>
-    <a href="filter?gender=M">Show Male</a> |
-    <a href="filter?gender=F">Show Female</a> |
-    <a href="index.html">Home</a>
-  </p>
+  <div class="action-bar" style="margin-top: 20px;">
+    <a href="filter?gender=M" class="btn btn-secondary">Male</a>
+    <a href="filter?gender=F" class="btn btn-secondary">Female</a>
+  </div>
 </div>
 <jsp:include page="/footer.jsp"/>
 </body>

@@ -17,31 +17,29 @@
   %>
   <form method="POST" action="<%= formAction %>">
     <input type="hidden" name="row" value="<%= row %>">
-    <table class="stats-table">
-      <tr><th>Field</th><th>Value</th></tr>
+    <div class="form-stack" style="max-width: 520px;">
       <%
         for (int i = 0; i < columns.size(); i = i + 1)
         {
           String col = columns.get(i);
           String val = (values != null && i < values.size()) ? values.get(i) : "";
       %>
-          <tr>
-            <td><label for="field_<%= i %>"><%= col %></label></td>
-            <td>
-              <input type="text"
-                     id="field_<%= i %>"
-                     name="<%= col %>"
-                     value="<%= val %>"
-                     style="width: 320px;">
-            </td>
-          </tr>
+          <div class="form-group">
+            <label for="field_<%= i %>"><%= col %></label>
+            <input type="text"
+                   class="form-input"
+                   id="field_<%= i %>"
+                   name="<%= col %>"
+                   value="<%= val %>">
+          </div>
       <%
         }
       %>
-    </table>
-    <br>
-    <button type="submit">Save</button>
-    <a href="patientList" style="margin-left: 16px;">Cancel</a>
+      <div class="action-bar">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="patientList" class="btn btn-secondary">Cancel</a>
+      </div>
+    </div>
   </form>
 </div>
 <jsp:include page="/footer.jsp"/>

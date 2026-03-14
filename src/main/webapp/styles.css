@@ -1,124 +1,541 @@
-.clearBoth {
-  clear: both;
+/* ============================================================
+   CSS custom properties — change colours here, nowhere else
+   ============================================================ */
+:root {
+  --primary:       #2c5f8a;
+  --primary-dark:  #1e4060;
+  --primary-light: #3a7ab8;
+  --primary-pale:  #e8f0f9;
+  --danger:        #c0392b;
+  --danger-dark:   #96281b;
+  --success:       #1e8449;
+  --success-pale:  #eafaf1;
+  --bg:            #f0f4f8;
+  --card:          #ffffff;
+  --border:        #d1dce8;
+  --text:          #1a202c;
+  --text-muted:    #64748b;
+  --radius:        8px;
+  --shadow:        0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md:     0 4px 16px rgba(0,0,0,0.12);
+}
+
+/* ============================================================
+   Reset & base
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f5f5f5;
-  color: #333;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 15px;
 }
 
-.site-title {
-  background: #2c5f8a;
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2, h3 {
+  margin-top: 0;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h2 { font-size: 1.5rem; margin-bottom: 16px; }
+h3 { font-size: 1.15rem; margin-bottom: 12px; }
+
+/* ============================================================
+   Site header
+   ============================================================ */
+.site-header {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  padding: 0 24px;
+}
+
+.site-header__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 18px 0;
+}
+
+.site-logo {
   color: white;
-  margin: 0;
-  padding: 16px 24px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  text-decoration: none;
+}
+
+.site-logo:hover {
+  text-decoration: none;
+  opacity: 0.9;
+}
+
+/* ============================================================
+   Navigation
+   ============================================================ */
+.nav {
+  background: var(--primary);
+  border-bottom: 2px solid var(--primary-dark);
 }
 
 .nav ul {
   list-style: none;
-  padding: 12px 24px;
+  padding: 0 24px;
   margin: 0;
-  background: #3a7ab8;
   display: flex;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 4px;
+  max-width: 1100px;
 }
 
 .nav ul li a {
-  color: white;
+  display: block;
+  color: rgba(255,255,255,0.88);
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  transition: background 0.15s, color 0.15s;
 }
 
 .nav ul li a:hover {
-  text-decoration: underline;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  text-decoration: none;
 }
 
+/* ============================================================
+   Page layout
+   ============================================================ */
 .main {
-  padding: 24px;
-  max-width: 800px;
+  max-width: 900px;
+  margin: 32px auto;
+  padding: 0 24px;
 }
 
-ul {
-  padding-left: 20px;
+/* White card container used on detail/form pages */
+.page-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  box-shadow: var(--shadow);
 }
 
-ul li {
-  margin: 6px 0;
+/* ============================================================
+   Home page feature cards
+   ============================================================ */
+.home-intro {
+  margin-bottom: 28px;
 }
 
-a {
-  color: #2c5f8a;
+.home-intro p {
+  color: var(--text-muted);
+  font-size: 1rem;
 }
 
-/* Patient detail definition list */
-dl.patient-detail {
+.card-grid {
   display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 6px 16px;
-  max-width: 600px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
-dl.patient-detail dt {
-  font-weight: bold;
-  color: #555;
+.feature-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-decoration: none;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.15s, transform 0.15s, border-color 0.15s;
+  display: block;
 }
 
-dl.patient-detail dd {
+.feature-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  border-color: var(--primary-light);
+  text-decoration: none;
+}
+
+.feature-card__icon {
+  font-size: 1.75rem;
+  margin-bottom: 10px;
+}
+
+.feature-card__title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  color: var(--primary);
+}
+
+.feature-card__desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
   margin: 0;
 }
 
-/* Statistics table */
+/* ============================================================
+   Patient list
+   ============================================================ */
+.patient-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.patient-list li {
+  border-bottom: 1px solid var(--border);
+}
+
+.patient-list li:last-child {
+  border-bottom: none;
+}
+
+.patient-list li a {
+  display: block;
+  padding: 12px 18px;
+  color: var(--text);
+  font-weight: 500;
+  transition: background 0.12s;
+  text-decoration: none;
+}
+
+.patient-list li a:hover {
+  background: var(--primary-pale);
+  color: var(--primary);
+  text-decoration: none;
+}
+
+/* ============================================================
+   Patient detail definition list
+   ============================================================ */
+dl.patient-detail {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 0;
+  max-width: 640px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+
+dl.patient-detail dt,
+dl.patient-detail dd {
+  padding: 9px 16px;
+  margin: 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+}
+
+dl.patient-detail dt {
+  font-weight: 600;
+  color: var(--text-muted);
+  background: #f8fafc;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.4px;
+}
+
+dl.patient-detail dd {
+  color: var(--text);
+}
+
+/* ============================================================
+   Tables
+   ============================================================ */
 table.stats-table {
   border-collapse: collapse;
   min-width: 300px;
+  width: 100%;
+  background: var(--card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 24px;
 }
 
 table.stats-table th,
 table.stats-table td {
-  border: 1px solid #ccc;
-  padding: 8px 16px;
+  padding: 10px 18px;
   text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
 }
 
 table.stats-table th {
-  background: #2c5f8a;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: none;
+}
+
+table.stats-table tr:last-child td {
+  border-bottom: none;
+}
+
+table.stats-table tr:nth-child(even) td {
+  background: #f8fafc;
+}
+
+table.stats-table tr:hover td {
+  background: var(--primary-pale);
+}
+
+table.stats-table td a {
+  font-weight: 500;
+}
+
+/* ============================================================
+   Forms
+   ============================================================ */
+.form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 480px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group label {
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="search"],
+input.form-input {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.92rem;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--card);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+
+.form-group input:focus,
+input.form-input:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 3px rgba(58,122,184,0.15);
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.btn {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+
+.btn:hover {
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
   color: white;
 }
 
-table.stats-table tr:nth-child(even) {
-  background: #f0f0f0;
+.btn-danger {
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
 }
 
-/* Edit / Delete action bar on patient detail page */
-.action-bar {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  margin: 16px 0;
+.btn-danger:hover {
+  background: var(--danger-dark);
+  border-color: var(--danger-dark);
+  color: white;
 }
 
+.btn-secondary {
+  background: white;
+  color: var(--primary);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--primary-pale);
+  border-color: var(--primary-light);
+  color: var(--primary);
+}
+
+/* Legacy delete button used in patientDetail.jsp */
 .btn-delete {
-  background: #c0392b;
+  background: var(--danger);
   color: white;
   border: none;
-  padding: 6px 14px;
-  border-radius: 4px;
+  padding: 8px 18px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  transition: background 0.15s, transform 0.1s;
 }
 
 .btn-delete:hover {
-  background: #96281b;
+  background: var(--danger-dark);
+  transform: translateY(-1px);
 }
 
-/* Error box */
+/* ============================================================
+   Action bar (edit/delete on detail page)
+   ============================================================ */
+.action-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 20px 0 12px;
+}
+
+/* ============================================================
+   Badges
+   ============================================================ */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: var(--primary-pale);
+  color: var(--primary);
+  border: 1px solid var(--border);
+}
+
+/* ============================================================
+   Alert boxes
+   ============================================================ */
 .error-box {
-  background: #ffe0e0;
-  border: 1px solid #f44;
-  border-radius: 4px;
-  padding: 12px 16px;
-  max-width: 600px;
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-left: 4px solid var(--danger);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  max-width: 640px;
+  color: #7f1d1d;
+  margin-bottom: 16px;
+}
+
+.error-box p { margin: 0; }
+
+.success-box {
+  background: var(--success-pale);
+  border: 1px solid #a7f3d0;
+  border-left: 4px solid var(--success);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  max-width: 640px;
+  color: #065f46;
+  margin-bottom: 16px;
+}
+
+.success-box p { margin: 0; }
+
+/* ============================================================
+   Misc utilities
+   ============================================================ */
+.clearBoth { clear: both; }
+
+.back-link {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.back-link:hover {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.text-muted {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.site-footer {
+  background: var(--primary-dark);
+  color: rgba(255,255,255,0.55);
+  text-align: center;
+  padding: 18px 24px;
+  margin-top: 48px;
+  font-size: 0.82rem;
+}
+
+.site-footer a {
+  color: rgba(255,255,255,0.75);
 }

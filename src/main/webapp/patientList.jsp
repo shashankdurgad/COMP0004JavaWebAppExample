@@ -9,8 +9,10 @@
 <body>
 <jsp:include page="/header.jsp"/>
 <div class="main">
-  <h2>All Patients</h2>
-  <p><a href="addpatient">+ Add New Patient</a></p>
+  <div class="section-header">
+    <h2>All Patients</h2>
+    <a href="addpatient" class="btn btn-primary">+ Add Patient</a>
+  </div>
   <%
     String errorMessage = (String) request.getAttribute("errorMessage");
     if (errorMessage != null)
@@ -20,7 +22,7 @@
   <%
     }
   %>
-  <ul>
+  <ul class="patient-list">
     <%
       ArrayList<String> patients = (ArrayList<String>) request.getAttribute("patientNames");
       if (patients != null)
