@@ -87,6 +87,50 @@
     %>
   </table>
 
+  <%
+    ArrayList<String> malePatients = (ArrayList<String>) request.getAttribute("malePatients");
+    int maleCount = (malePatients != null) ? malePatients.size() : 0;
+  %>
+  <div class="section-header">
+    <h3>Male Patients</h3>
+    <span class="badge"><%= maleCount %> patient(s)</span>
+  </div>
+  <ul class="patient-list">
+    <%
+      if (malePatients != null)
+      {
+        for (String name : malePatients)
+        {
+    %>
+          <li><span style="display:block; padding: 12px 18px; font-weight:500;"><%= name %></span></li>
+    <%
+        }
+      }
+    %>
+  </ul>
+
+  <%
+    ArrayList<String> femalePatients = (ArrayList<String>) request.getAttribute("femalePatients");
+    int femaleCount = (femalePatients != null) ? femalePatients.size() : 0;
+  %>
+  <div class="section-header">
+    <h3>Female Patients</h3>
+    <span class="badge"><%= femaleCount %> patient(s)</span>
+  </div>
+  <ul class="patient-list">
+    <%
+      if (femalePatients != null)
+      {
+        for (String name : femalePatients)
+        {
+    %>
+          <li><span style="display:block; padding: 12px 18px; font-weight:500;"><%= name %></span></li>
+    <%
+        }
+      }
+    %>
+  </ul>
+
   <a href="index.html" class="back-link">&#8592; Back to home</a>
 </div>
 <jsp:include page="/footer.jsp"/>

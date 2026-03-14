@@ -7,8 +7,6 @@
   <ul>
     <li><a href="/patientList">All Patients</a></li>
     <li><a href="/search.html">Search</a></li>
-    <li><a href="/filter?gender=M">Male Patients</a></li>
-    <li><a href="/filter?gender=F">Female Patients</a></li>
     <li><a href="/analytics">Analytics</a></li>
     <li><a href="/exportjson">Export JSON</a></li>
   </ul>

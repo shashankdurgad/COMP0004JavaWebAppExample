@@ -29,6 +29,8 @@ public class AnalyticsServlet extends HttpServlet
       request.setAttribute("oldestOverall",         model.getOldestPatientOverall());
       request.setAttribute("countByCity",           model.getPatientCountByCity());
       request.setAttribute("countByMaritalStatus",  model.getPatientCountByMaritalStatus());
+      request.setAttribute("malePatients",          model.getPatientsByGender("M"));
+      request.setAttribute("femalePatients",        model.getPatientsByGender("F"));
 
       RequestDispatcher dispatcher = request.getRequestDispatcher("/analytics.jsp");
       dispatcher.forward(request, response);

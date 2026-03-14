@@ -35,15 +35,6 @@
   </servlet-mapping>
 
   <servlet>
-    <servlet-name>FilterServlet</servlet-name>
-    <servlet-class>uk.ac.ucl.servlets.FilterServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>FilterServlet</servlet-name>
-    <url-pattern>/filter</url-pattern>
-  </servlet-mapping>
-
-  <servlet>
     <servlet-name>AnalyticsServlet</servlet-name>
     <servlet-class>uk.ac.ucl.servlets.AnalyticsServlet</servlet-class>
   </servlet>
