@@ -1,5 +1,8 @@
 package uk.ac.ucl.servlets;
 
+import java.io.IOException;
+import java.util.List;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -9,9 +12,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import uk.ac.ucl.model.Model;
 import uk.ac.ucl.model.ModelFactory;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * The ViewPatientListServlet handles HTTP requests for displaying the full list of patients.
@@ -26,6 +26,8 @@ import java.util.List;
 @WebServlet("/patientList")
 public class ViewPatientListServlet extends HttpServlet
 {
+  private static final long serialVersionUID = 1L;
+
 
   /**
    * Handles HTTP GET requests.
@@ -36,6 +38,7 @@ public class ViewPatientListServlet extends HttpServlet
    * @throws ServletException if the request for the GET could not be handled
    * @throws IOException      if an input or output error is detected when the servlet handles the GET request
    */
+  @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
   {
     try {
@@ -74,6 +77,7 @@ public class ViewPatientListServlet extends HttpServlet
    * @throws ServletException if the request for the POST could not be handled
    * @throws IOException      if an input or output error is detected when the servlet handles the POST request
    */
+  @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     doGet(request, response);
   }

@@ -1,5 +1,8 @@
 package uk.ac.ucl.servlets;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,14 +12,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import uk.ac.ucl.model.Model;
 import uk.ac.ucl.model.ModelFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 // Handles requests for a single patient's detail page.
 // URL: /patient?row=N where N is the 0-based row index in the DataFrame.
 @WebServlet(urlPatterns = {"/patient"})
 public class ViewPatientServlet extends HttpServlet
 {
+  private static final long serialVersionUID = 1L;
+
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException
@@ -51,7 +53,7 @@ public class ViewPatientServlet extends HttpServlet
       RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
       dispatcher.forward(request, response);
     }
-    catch (Exception e)
+    catch (ServletException | IOException e)
     {
       request.setAttribute("errorMessage", e.getMessage());
       RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");

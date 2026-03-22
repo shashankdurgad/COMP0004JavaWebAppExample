@@ -1,9 +1,10 @@
 package uk.ac.ucl.model;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
@@ -149,26 +150,24 @@ public class Model
   // of the given row (case-insensitive).
   private boolean rowMatchesAllKeywords(int row, String[] keywords, ArrayList<String> columns)
   {
-    for (int k = 0; k < keywords.length; k++)
-    {
-      String keyword = keywords[k];
-      boolean keywordFound = false;
-
-      for (int c = 0; c < columns.size(); c++)
-      {
-        String cellValue = dataFrame.getValue(columns.get(c), row).toLowerCase();
-        if (cellValue.contains(keyword))
-        {
-          keywordFound = true;
-          break;
-        }
+      for (String keyword : keywords) {
+          boolean keywordFound = false;
+          
+          for (int c = 0; c < columns.size(); c++)
+          {
+              String cellValue = dataFrame.getValue(columns.get(c), row).toLowerCase();
+              if (cellValue.contains(keyword))
+              {
+                  keywordFound = true;
+                  break;
+              }
+          }
+          
+          if (!keywordFound)
+          {
+              return false;
+          }
       }
-
-      if (!keywordFound)
-      {
-        return false;
-      }
-    }
     return true;
   }
 
@@ -216,7 +215,7 @@ public class Model
       String deathDate = dataFrame.getValue("DEATHDATE", row).trim();
       if (gender.equals("M")) { male++; }
       if (gender.equals("F")) { female++; }
-      if (!deathDate.isEmpty()) { deceased = deceased + 1; }
+      if (!deathDate.isEmpty()) { deceased++; }
     }
     ArrayList<String> stats = new ArrayList<>();
     stats.add("Total patients: " + total);

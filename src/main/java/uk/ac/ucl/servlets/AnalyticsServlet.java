@@ -1,5 +1,7 @@
 package uk.ac.ucl.servlets;
 
+import java.io.IOException;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,13 +11,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import uk.ac.ucl.model.Model;
 import uk.ac.ucl.model.ModelFactory;
 
-import java.io.IOException;
-
 // Handles the combined analytics page (statistics + insights).
 // URL: /analytics
 @WebServlet(urlPatterns = {"/analytics"})
 public class AnalyticsServlet extends HttpServlet
 {
+  private static final long serialVersionUID = 1L;
+
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException
@@ -36,7 +38,7 @@ public class AnalyticsServlet extends HttpServlet
       RequestDispatcher dispatcher = request.getRequestDispatcher("/analytics.jsp");
       dispatcher.forward(request, response);
     }
-    catch (Exception e)
+    catch (ServletException | IOException e)
     {
       request.setAttribute("errorMessage", e.getMessage());
       request.getRequestDispatcher("/error.jsp").forward(request, response);

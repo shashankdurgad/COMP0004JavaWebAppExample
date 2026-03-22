@@ -1,5 +1,8 @@
 package uk.ac.ucl.servlets;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,15 +12,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import uk.ac.ucl.model.Model;
 import uk.ac.ucl.model.ModelFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 // Handles editing an existing patient row.
 // GET  /editpatient?row=N — shows a pre-filled form for the given row
 // POST /editpatient       — saves the updated row and redirects to the patient detail page
 @WebServlet(urlPatterns = {"/editpatient"})
 public class EditPatientServlet extends HttpServlet
 {
+  private static final long serialVersionUID = 1L;
+
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException
@@ -47,7 +49,7 @@ public class EditPatientServlet extends HttpServlet
       RequestDispatcher dispatcher = request.getRequestDispatcher("/patientForm.jsp");
       dispatcher.forward(request, response);
     }
-    catch (Exception e)
+    catch (ServletException | IOException | NumberFormatException e)
     {
       request.setAttribute("errorMessage", e.getMessage());
       RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");
@@ -76,7 +78,7 @@ public class EditPatientServlet extends HttpServlet
       model.updatePatient(row, values);
       response.sendRedirect(request.getContextPath() + "/patient?row=" + row);
     }
-    catch (Exception e)
+    catch (IOException | NumberFormatException e)
     {
       request.setAttribute("errorMessage", e.getMessage());
       RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");

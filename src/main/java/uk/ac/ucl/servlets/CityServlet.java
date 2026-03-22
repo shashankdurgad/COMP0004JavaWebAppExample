@@ -1,5 +1,8 @@
 package uk.ac.ucl.servlets;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,14 +12,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import uk.ac.ucl.model.Model;
 import uk.ac.ucl.model.ModelFactory;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 // Handles requests to view all patients living in a given city.
 // URL: /city?name=CityName
 @WebServlet(urlPatterns = {"/city"})
 public class CityServlet extends HttpServlet
 {
+  private static final long serialVersionUID = 1L;
+
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException
@@ -41,7 +43,7 @@ public class CityServlet extends HttpServlet
       RequestDispatcher dispatcher = request.getRequestDispatcher("/cityPatients.jsp");
       dispatcher.forward(request, response);
     }
-    catch (Exception e)
+    catch (ServletException | IOException e)
     {
       request.setAttribute("errorMessage", e.getMessage());
       RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");

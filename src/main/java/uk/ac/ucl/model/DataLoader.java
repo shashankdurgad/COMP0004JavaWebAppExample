@@ -1,8 +1,9 @@
 package uk.ac.ucl.model;
 
-import java.io.Reader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -56,7 +57,6 @@ public class DataLoader
     catch (IOException e)
     {
       System.err.println("Error reading file: " + filePath);
-      e.printStackTrace();
     }
 
     return dataFrame;
