@@ -33,11 +33,12 @@
     %>
           <li><a href="patient?row=<%= i %>"><%= patient %></a></li>
     <%
-          i = i + 1;
+          i++;
         }
       }
     %>
   </ul>
+  <a href="index.html" class="back-link">&#8592; Back to home</a>
 </div>
 <jsp:include page="/footer.jsp"/>
 </body>

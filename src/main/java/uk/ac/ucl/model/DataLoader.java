@@ -36,7 +36,7 @@ public class DataLoader
         if (!headerRead)
         {
           // First row: create one Column per header name.
-          for (int i = 0; i < csvRecord.size(); i = i + 1)
+          for (int i = 0; i < csvRecord.size(); i++)
           {
             dataFrame.addColumn(new Column(csvRecord.get(i)));
           }
@@ -45,7 +45,7 @@ public class DataLoader
         else
         {
           // Data row: append each cell value to the matching column.
-          for (int i = 0; i < csvRecord.size(); i = i + 1)
+          for (int i = 0; i < csvRecord.size(); i++)
           {
             String columnName = dataFrame.getColumnNames().get(i);
             dataFrame.addValue(columnName, csvRecord.get(i));

@@ -1,6 +1,5 @@
 package uk.ac.ucl.model;
 
-import java.io.File;
 import java.io.IOException;
 
 // This class gives access to the model to any other class that needs it.
@@ -20,7 +19,7 @@ public class ModelFactory
       model = new Model();
       // Note where the data file is stored in the data directory,
       // and the pathname to locate it.
-      // The data should be read the file once, not every time the model is accessed!
+      // The data file should be read once, not every time the model is accessed!
       model.readFile("data/patients100.csv");
     }
     return model;

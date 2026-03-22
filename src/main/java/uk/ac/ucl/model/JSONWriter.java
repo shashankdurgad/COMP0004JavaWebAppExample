@@ -32,7 +32,7 @@ public class JSONWriter
     ArrayList<String> columns = dataFrame.getColumnNames();
     int rowCount = dataFrame.getRowCount();
 
-    for (int row = 0; row < rowCount; row = row + 1)
+    for (int row = 0; row < rowCount; row++)
     {
       ObjectNode node = mapper.createObjectNode();
       for (String column : columns)

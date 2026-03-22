@@ -31,10 +31,10 @@
   </dl>
   <div class="action-bar">
     <a href="editpatient?row=<%= request.getAttribute("row") %>" class="btn btn-secondary">Edit</a>
-    <form method="POST" action="deletepatient" style="display:inline;"
+    <form method="POST" action="deletepatient" style="display:contents;"
           onsubmit="return confirm('Delete this patient? This cannot be undone.');">
       <input type="hidden" name="row" value="<%= request.getAttribute("row") %>">
-      <button type="submit" class="btn-delete">Delete</button>
+      <button type="submit" class="btn btn-danger">Delete</button>
     </form>
   </div>
   <a href="patientList" class="back-link">&#8592; Back to patient list</a>

@@ -19,7 +19,7 @@
     <input type="hidden" name="row" value="<%= row %>">
     <div class="form-stack" style="max-width: 520px;">
       <%
-        for (int i = 0; i < columns.size(); i = i + 1)
+        for (int i = 0; i < columns.size(); i++)
         {
           String col = columns.get(i);
           String val = (values != null && i < values.size()) ? values.get(i) : "";

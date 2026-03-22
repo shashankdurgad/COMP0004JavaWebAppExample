@@ -423,25 +423,6 @@ input.form-input:focus {
   color: var(--primary);
 }
 
-/* Legacy delete button used in patientDetail.jsp */
-.btn-delete {
-  background: var(--danger);
-  color: white;
-  border: none;
-  padding: 8px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.88rem;
-  font-weight: 600;
-  font-family: inherit;
-  transition: background 0.15s, transform 0.1s;
-}
-
-.btn-delete:hover {
-  background: var(--danger-dark);
-  transform: translateY(-1px);
-}
-
 /* ============================================================
    Action bar (edit/delete on detail page)
    ============================================================ */
@@ -522,6 +503,165 @@ input.form-input:focus {
 .text-muted {
   color: var(--text-muted);
   font-size: 0.88rem;
+}
+
+/* ============================================================
+   Charts
+   ============================================================ */
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.chart-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px 20px 16px;
+}
+
+.chart-card h3 {
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+}
+
+/* Vertical bar chart (age distribution) */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 140px;
+  padding-bottom: 4px;
+}
+
+.bar-chart .col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.bar-chart .bar {
+  width: 100%;
+  background: var(--primary-light);
+  border-radius: 3px 3px 0 0;
+  transition: background 0.15s;
+  min-height: 2px;
+}
+
+.bar-chart .col:hover .bar {
+  background: var(--primary);
+}
+
+.bar-chart .bar-val {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+  line-height: 1;
+}
+
+.bar-chart .bar-label {
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+/* Gender split bar */
+.gender-bar {
+  display: flex;
+  height: 32px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.gender-bar__seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: white;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.gender-bar__seg--male   { background: var(--primary); }
+.gender-bar__seg--female { background: #e07b9a; }
+
+.gender-legend {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gender-legend__dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.gender-legend__dot--male   { background: var(--primary); }
+.gender-legend__dot--female { background: #e07b9a; }
+
+/* Horizontal bar chart (marital status) */
+.hbar-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hbar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hbar-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  width: 70px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.hbar-track {
+  flex: 1;
+  height: 16px;
+  background: var(--bg);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.hbar-fill {
+  height: 100%;
+  background: var(--primary-light);
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.hbar-row:hover .hbar-fill {
+  background: var(--primary);
+}
+
+.hbar-val {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  width: 24px;
+  flex-shrink: 0;
 }
 
 /* ============================================================

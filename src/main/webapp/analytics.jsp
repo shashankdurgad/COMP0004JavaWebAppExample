@@ -1,4 +1,4 @@
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.ArrayList,java.util.LinkedHashMap" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -9,6 +9,127 @@
 <jsp:include page="/header.jsp"/>
 <div class="main">
   <h2>Analytics</h2>
+
+  <%-- ===== CHARTS ===== --%>
+  <%
+    LinkedHashMap<String, Integer> ageDist =
+      (LinkedHashMap<String, Integer>) request.getAttribute("ageDistribution");
+
+    // Compute max age bucket value for scaling bars
+    int ageMax = 1;
+    if (ageDist != null)
+    {
+      for (int v : ageDist.values()) { if (v > ageMax) ageMax = v; }
+    }
+
+    // Parse gender counts from stats for the gender bar
+    int statMale = 0, statFemale = 0, statTotal = 1;
+    ArrayList<String> statsForChart = (ArrayList<String>) request.getAttribute("stats");
+    if (statsForChart != null)
+    {
+      for (String s : statsForChart)
+      {
+        if (s.startsWith("Total patients:"))
+          statTotal = Math.max(1, Integer.parseInt(s.substring(s.indexOf(":") + 1).trim()));
+        else if (s.startsWith("Male:"))
+          statMale = Integer.parseInt(s.substring(s.indexOf(":") + 1).trim());
+        else if (s.startsWith("Female:"))
+          statFemale = Integer.parseInt(s.substring(s.indexOf(":") + 1).trim());
+      }
+    }
+    int malePct   = (int) Math.round(statMale   * 100.0 / statTotal);
+    int femalePct = 100 - malePct;
+
+    // Compute max marital count for scaling
+    ArrayList<String> maritalForChart = (ArrayList<String>) request.getAttribute("countByMaritalStatus");
+    int maritalMax = 1;
+    if (maritalForChart != null)
+    {
+      for (String e : maritalForChart)
+      {
+        int ci = e.indexOf(":");
+        String raw = e.substring(ci + 1).trim().replace(" patient(s)", "").trim();
+        try { int n = Integer.parseInt(raw); if (n > maritalMax) maritalMax = n; } catch (NumberFormatException ex) {}
+      }
+    }
+  %>
+
+  <div class="chart-grid">
+
+    <%-- Age distribution: vertical bar chart --%>
+    <div class="chart-card">
+      <h3>Age Distribution</h3>
+      <div class="bar-chart">
+        <%
+          if (ageDist != null)
+          {
+            for (java.util.Map.Entry<String, Integer> e : ageDist.entrySet())
+            {
+              int px = (int) Math.round(e.getValue() * 110.0 / ageMax);
+              if (px < 2) px = 2;
+        %>
+              <div class="col">
+                <span class="bar-val"><%= e.getValue() %></span>
+                <div class="bar" style="height:<%= px %>px"></div>
+                <span class="bar-label"><%= e.getKey() %></span>
+              </div>
+        <%
+            }
+          }
+        %>
+      </div>
+    </div>
+
+    <%-- Gender split: segmented bar --%>
+    <div class="chart-card">
+      <h3>Gender Split</h3>
+      <div class="gender-bar">
+        <div class="gender-bar__seg gender-bar__seg--male"   style="width:<%= malePct %>%">
+          <% if (malePct >= 12) { %>Male <%= malePct %>%<% } %>
+        </div>
+        <div class="gender-bar__seg gender-bar__seg--female" style="width:<%= femalePct %>%">
+          <% if (femalePct >= 12) { %>Female <%= femalePct %>%<% } %>
+        </div>
+      </div>
+      <div class="gender-legend">
+        <span class="gender-legend__dot gender-legend__dot--male"></span> Male (<%= statMale %>)
+        &nbsp;&nbsp;
+        <span class="gender-legend__dot gender-legend__dot--female"></span> Female (<%= statFemale %>)
+      </div>
+    </div>
+
+    <%-- Marital status: horizontal bar chart --%>
+    <div class="chart-card">
+      <h3>Marital Status</h3>
+      <div class="hbar-chart">
+        <%
+          if (maritalForChart != null)
+          {
+            for (String e : maritalForChart)
+            {
+              int ci = e.indexOf(":");
+              String statusLabel = e.substring(0, ci).trim();
+              String raw = e.substring(ci + 1).trim().replace(" patient(s)", "").trim();
+              int n = 0;
+              try { n = Integer.parseInt(raw); } catch (NumberFormatException ex) {}
+              int hpct = (int) Math.round(n * 100.0 / maritalMax);
+        %>
+              <div class="hbar-row">
+                <span class="hbar-label"><%= statusLabel %></span>
+                <div class="hbar-track">
+                  <div class="hbar-fill" style="width:<%= Math.max(hpct, 2) %>%"></div>
+                </div>
+                <span class="hbar-val"><%= n %></span>
+              </div>
+        <%
+            }
+          }
+        %>
+      </div>
+    </div>
+
+  </div>
+  <%-- ===== END CHARTS ===== --%>
 
   <h3>Summary Statistics</h3>
   <table class="stats-table">
@@ -71,10 +192,9 @@
   <table class="stats-table">
     <tr><th>Status</th><th>Count</th></tr>
     <%
-      ArrayList<String> countByMarital = (ArrayList<String>) request.getAttribute("countByMaritalStatus");
-      if (countByMarital != null)
+      if (maritalForChart != null)
       {
-        for (String entry : countByMarital)
+        for (String entry : maritalForChart)
         {
           int colonIndex = entry.indexOf(":");
           String status = entry.substring(0, colonIndex).trim();

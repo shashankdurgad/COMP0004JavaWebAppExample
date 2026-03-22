@@ -26,6 +26,26 @@ public class Model
     dataFrame = loader.load();
   }
 
+  // Returns the count of patients in each age decade bucket (0-9, 10-19, ... 90+).
+  // Age is computed from BIRTHDATE to DEATHDATE (or today for living patients).
+  public LinkedHashMap<String, Integer> getAgeDistribution()
+  {
+    String[] labels = {"0-9","10-19","20-29","30-39","40-49","50-59","60-69","70-79","80-89","90+"};
+    LinkedHashMap<String, Integer> dist = new LinkedHashMap<>();
+    for (String l : labels) { dist.put(l, 0); }
+    int currentYear = java.time.Year.now().getValue();
+    for (int row = 0; row < dataFrame.getRowCount(); row++)
+    {
+      String bd = dataFrame.getValue("BIRTHDATE", row).trim();
+      if (bd.isEmpty()) { continue; }
+      String dd = dataFrame.getValue("DEATHDATE", row).trim();
+      int endYear = dd.isEmpty() ? currentYear : Integer.parseInt(dd.substring(0, 4));
+      int age = Math.max(0, endYear - Integer.parseInt(bd.substring(0, 4)));
+      dist.merge(labels[Math.min(age / 10, 9)], 1, Integer::sum);
+    }
+    return dist;
+  }
+
   // Returns the column names in order — used by servlets to build add/edit forms.
   public ArrayList<String> getColumnNames()
   {
@@ -37,7 +57,7 @@ public class Model
   public void addPatient(ArrayList<String> columnValues) throws IOException
   {
     ArrayList<String> cols = dataFrame.getColumnNames();
-    for (int i = 0; i < cols.size(); i = i + 1)
+    for (int i = 0; i < cols.size(); i++)
     {
       dataFrame.addValue(cols.get(i), columnValues.get(i));
     }
@@ -49,7 +69,7 @@ public class Model
   public void updatePatient(int row, ArrayList<String> columnValues) throws IOException
   {
     ArrayList<String> cols = dataFrame.getColumnNames();
-    for (int i = 0; i < cols.size(); i = i + 1)
+    for (int i = 0; i < cols.size(); i++)
     {
       dataFrame.putValue(cols.get(i), row, columnValues.get(i));
     }
@@ -77,7 +97,7 @@ public class Model
          CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT))
     {
       printer.printRecord(dataFrame.getColumnNames());
-      for (int row = 0; row < dataFrame.getRowCount(); row = row + 1)
+      for (int row = 0; row < dataFrame.getRowCount(); row++)
       {
         ArrayList<String> rowValues = new ArrayList<>();
         for (String col : dataFrame.getColumnNames())
@@ -95,7 +115,7 @@ public class Model
     ArrayList<String> names = new ArrayList<>();
     int rowCount = dataFrame.getRowCount();
 
-    for (int row = 0; row < rowCount; row = row + 1)
+    for (int row = 0; row < rowCount; row++)
     {
       names.add(buildName(row));
     }
@@ -114,7 +134,7 @@ public class Model
     ArrayList<String> columns = dataFrame.getColumnNames();
     int rowCount = dataFrame.getRowCount();
 
-    for (int row = 0; row < rowCount; row = row + 1)
+    for (int row = 0; row < rowCount; row++)
     {
       if (rowMatchesAllKeywords(row, keywords, columns))
       {
@@ -129,12 +149,12 @@ public class Model
   // of the given row (case-insensitive).
   private boolean rowMatchesAllKeywords(int row, String[] keywords, ArrayList<String> columns)
   {
-    for (int k = 0; k < keywords.length; k = k + 1)
+    for (int k = 0; k < keywords.length; k++)
     {
       String keyword = keywords[k];
       boolean keywordFound = false;
 
-      for (int c = 0; c < columns.size(); c = c + 1)
+      for (int c = 0; c < columns.size(); c++)
       {
         String cellValue = dataFrame.getValue(columns.get(c), row).toLowerCase();
         if (cellValue.contains(keyword))
@@ -158,7 +178,7 @@ public class Model
   {
     ArrayList<String> data = new ArrayList<>();
     ArrayList<String> columns = dataFrame.getColumnNames();
-    for (int i = 0; i < columns.size(); i = i + 1)
+    for (int i = 0; i < columns.size(); i++)
     {
       String col = columns.get(i);
       String val = dataFrame.getValue(col, row);
@@ -172,7 +192,7 @@ public class Model
   {
     ArrayList<String> results = new ArrayList<>();
     int rowCount = dataFrame.getRowCount();
-    for (int row = 0; row < rowCount; row = row + 1)
+    for (int row = 0; row < rowCount; row++)
     {
       if (dataFrame.getValue("GENDER", row).equals(gender))
       {
@@ -190,12 +210,12 @@ public class Model
     int male = 0;
     int female = 0;
     int deceased = 0;
-    for (int row = 0; row < total; row = row + 1)
+    for (int row = 0; row < total; row++)
     {
       String gender = dataFrame.getValue("GENDER", row);
       String deathDate = dataFrame.getValue("DEATHDATE", row).trim();
-      if (gender.equals("M")) { male = male + 1; }
-      if (gender.equals("F")) { female = female + 1; }
+      if (gender.equals("M")) { male++; }
+      if (gender.equals("F")) { female++; }
       if (!deathDate.isEmpty()) { deceased = deceased + 1; }
     }
     ArrayList<String> stats = new ArrayList<>();
@@ -216,7 +236,7 @@ public class Model
     int oldestRow = -1;
     int rowCount = dataFrame.getRowCount();
 
-    for (int row = 0; row < rowCount; row = row + 1)
+    for (int row = 0; row < rowCount; row++)
     {
       String birthdate = dataFrame.getValue("BIRTHDATE", row).trim();
       String deathdate = dataFrame.getValue("DEATHDATE", row).trim();
@@ -248,7 +268,7 @@ public class Model
     int oldestRow = -1;
     int rowCount = dataFrame.getRowCount();
 
-    for (int row = 0; row < rowCount; row = row + 1)
+    for (int row = 0; row < rowCount; row++)
     {
       String birthdate = dataFrame.getValue("BIRTHDATE", row).trim();
       if (birthdate.isEmpty())
@@ -276,7 +296,7 @@ public class Model
     LinkedHashMap<String, Integer> cityCounts = new LinkedHashMap<>();
     int rowCount = dataFrame.getRowCount();
 
-    for (int row = 0; row < rowCount; row = row + 1)
+    for (int row = 0; row < rowCount; row++)
     {
       String city = dataFrame.getValue("CITY", row).trim();
       if (city.isEmpty()) { continue; }
@@ -305,7 +325,7 @@ public class Model
     ArrayList<String> results = new ArrayList<>();
     int rowCount = dataFrame.getRowCount();
 
-    for (int row = 0; row < rowCount; row = row + 1)
+    for (int row = 0; row < rowCount; row++)
     {
       if (dataFrame.getValue("CITY", row).trim().equalsIgnoreCase(city))
       {
@@ -322,7 +342,7 @@ public class Model
     LinkedHashMap<String, Integer> counts = new LinkedHashMap<>();
     int rowCount = dataFrame.getRowCount();
 
-    for (int row = 0; row < rowCount; row = row + 1)
+    for (int row = 0; row < rowCount; row++)
     {
       String status = dataFrame.getValue("MARITAL", row).trim();
       if (status.isEmpty()) { status = "Unknown"; }
