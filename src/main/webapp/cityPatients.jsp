@@ -15,14 +15,14 @@
   %>
   <h2>Patients in <%= cityName %></h2>
   <p><%= count %> patient(s) found.</p>
-  <ul>
+  <ul class="patient-list">
     <%
       if (patients != null)
       {
         for (String name : patients)
         {
     %>
-          <li><%= name %></li>
+          <li><span style="display:block; padding: 12px 18px; font-weight:500;"><%= name %></span></li>
     <%
         }
       }

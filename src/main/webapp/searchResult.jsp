@@ -18,7 +18,7 @@
   <%
     }
     List<String> patients = (List<String>) request.getAttribute("result");
-    if (patients != null && patients.size() != 0)
+    if (patients != null && !patients.isEmpty())
     {
   %>
     <p class="text-muted"><span class="badge"><%= patients.size() %></span> patient(s) matched.</p>

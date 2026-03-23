@@ -479,8 +479,6 @@ input.form-input:focus {
 /* ============================================================
    Misc utilities
    ============================================================ */
-.clearBoth { clear: both; }
-
 .back-link {
   display: inline-block;
   margin-top: 16px;
