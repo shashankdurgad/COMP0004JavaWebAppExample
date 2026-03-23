@@ -10,7 +10,7 @@
 <div class="main">
   <h2>Analytics</h2>
 
-  <%-- ===== CHARTS ===== --%>
+  <!-- ===== CHARTS ===== -->
   <%
     LinkedHashMap<String, Integer> ageDist =
       (LinkedHashMap<String, Integer>) request.getAttribute("ageDistribution");
@@ -56,7 +56,7 @@
 
   <div class="chart-grid">
 
-    <%-- Age distribution: vertical bar chart --%>
+    <!-- Age distribution: vertical bar chart -->
     <div class="chart-card">
       <h3>Age Distribution</h3>
       <div class="bar-chart">
@@ -80,7 +80,7 @@
       </div>
     </div>
 
-    <%-- Gender split: segmented bar --%>
+    <!-- Gender split: segmented bar -->
     <div class="chart-card">
       <h3>Gender Split</h3>
       <div class="gender-bar">
@@ -98,7 +98,7 @@
       </div>
     </div>
 
-    <%-- Marital status: horizontal bar chart --%>
+    <!-- Marital status: horizontal bar chart -->
     <div class="chart-card">
       <h3>Marital Status</h3>
       <div class="hbar-chart">
@@ -109,7 +109,7 @@
             {
               int ci = e.indexOf(":");
               String rawLabel = e.substring(0, ci).trim();
-              <%-- Map raw CSV codes to display labels: M → Married, S → Single, blank → Unknown. --%>
+              // Map raw CSV codes to display labels: M → Married, S → Single, blank → Unknown.
               String statusLabel = rawLabel.equals("M") ? "Married" : rawLabel.equals("S") ? "Single" : rawLabel.isEmpty() ? "Unknown" : rawLabel;
               String raw = e.substring(ci + 1).trim().replace(" patient(s)", "").trim();
               int n = 0;
@@ -131,7 +131,7 @@
     </div>
 
   </div>
-  <%-- ===== END CHARTS ===== --%>
+  <!-- ===== END CHARTS ===== -->
 
   <h3>Summary Statistics</h3>
   <table class="stats-table">
@@ -200,7 +200,7 @@
         {
           int colonIndex = entry.indexOf(":");
           String rawStatus = entry.substring(0, colonIndex).trim();
-          <%-- Same code-to-label mapping as the chart above. --%>
+          // Same code-to-label mapping as the chart above.
           String status = rawStatus.equals("M") ? "Married" : rawStatus.equals("S") ? "Single" : rawStatus.isEmpty() ? "Unknown" : rawStatus;
           String count  = entry.substring(colonIndex + 1).trim();
     %>

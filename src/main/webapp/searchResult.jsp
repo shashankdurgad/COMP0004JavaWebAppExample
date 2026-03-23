@@ -34,7 +34,7 @@
     </ul>
   <%
     }
-    <%-- Only show "no results" when there is no error message already displayed. --%>
+    // Only show "no results" when there is no error message already displayed.
     else if (errorMessage == null)
     {
   %>
