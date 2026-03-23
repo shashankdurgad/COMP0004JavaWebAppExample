@@ -187,9 +187,8 @@ tomcat.*/
 # Application log files (including rotated copies created by Java FileHandler)
 logfile.txt*
 
-# Generated data exports and runtime-modified data files
+# Generated data exports
 data/patients.json
-data/patients100.csv
 
 ### SublimeText template
 # Cache files for Sublime Text

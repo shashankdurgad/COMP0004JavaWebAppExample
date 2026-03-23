@@ -344,7 +344,6 @@ public class Model
     for (int row = 0; row < rowCount; row++)
     {
       String status = dataFrame.getValue("MARITAL", row).trim();
-      if (status.isEmpty()) { status = "Unknown"; }
 
       if (counts.containsKey(status))
       {

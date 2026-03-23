@@ -1,5 +1,7 @@
 package uk.ac.ucl.servlets;
 
+import java.io.IOException;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,8 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import uk.ac.ucl.model.Model;
 import uk.ac.ucl.model.ModelFactory;
-
-import java.io.IOException;
 
 // Handles deleting a patient row.
 // POST /deletepatient (with hidden field "row") — deletes the row and redirects to the patient list.
@@ -30,7 +30,7 @@ public class DeletePatientServlet extends HttpServlet
       model.deletePatient(row);
       response.sendRedirect(request.getContextPath() + "/patientList");
     }
-    catch (Exception e)
+    catch (IOException | NumberFormatException e)
     {
       request.setAttribute("errorMessage", e.getMessage());
       RequestDispatcher dispatcher = request.getRequestDispatcher("/error.jsp");

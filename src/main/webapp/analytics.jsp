@@ -70,7 +70,7 @@
         %>
               <div class="col">
                 <span class="bar-val"><%= e.getValue() %></span>
-                <div class="bar" style="height:<%= px %>px"></div>
+                <div class="bar" style="--bar-height:<%= px %>px"></div>
                 <span class="bar-label"><%= e.getKey() %></span>
               </div>
         <%
@@ -84,10 +84,10 @@
     <div class="chart-card">
       <h3>Gender Split</h3>
       <div class="gender-bar">
-        <div class="gender-bar__seg gender-bar__seg--male"   style="width:<%= malePct %>%">
+        <div class="gender-bar__seg gender-bar__seg--male" style="--seg-width:<%= malePct %>%">
           <% if (malePct >= 12) { %>Male <%= malePct %>%<% } %>
         </div>
-        <div class="gender-bar__seg gender-bar__seg--female" style="width:<%= femalePct %>%">
+        <div class="gender-bar__seg gender-bar__seg--female" style="--seg-width:<%= femalePct %>%">
           <% if (femalePct >= 12) { %>Female <%= femalePct %>%<% } %>
         </div>
       </div>
@@ -108,7 +108,8 @@
             for (String e : maritalForChart)
             {
               int ci = e.indexOf(":");
-              String statusLabel = e.substring(0, ci).trim();
+              String rawLabel = e.substring(0, ci).trim();
+              String statusLabel = rawLabel.equals("M") ? "Married" : rawLabel.equals("S") ? "Single" : rawLabel.isEmpty() ? "Unknown" : rawLabel;
               String raw = e.substring(ci + 1).trim().replace(" patient(s)", "").trim();
               int n = 0;
               try { n = Integer.parseInt(raw); } catch (NumberFormatException ex) {}
@@ -117,7 +118,7 @@
               <div class="hbar-row">
                 <span class="hbar-label"><%= statusLabel %></span>
                 <div class="hbar-track">
-                  <div class="hbar-fill" style="width:<%= Math.max(hpct, 2) %>%"></div>
+                  <div class="hbar-fill" style="--fill-width:<%= Math.max(hpct, 2) %>%"></div>
                 </div>
                 <span class="hbar-val"><%= n %></span>
               </div>
@@ -197,7 +198,8 @@
         for (String entry : maritalForChart)
         {
           int colonIndex = entry.indexOf(":");
-          String status = entry.substring(0, colonIndex).trim();
+          String rawStatus = entry.substring(0, colonIndex).trim();
+          String status = rawStatus.equals("M") ? "Married" : rawStatus.equals("S") ? "Single" : rawStatus.isEmpty() ? "Unknown" : rawStatus;
           String count  = entry.substring(colonIndex + 1).trim();
     %>
           <tr><td><%= status %></td><td><%= count %></td></tr>
