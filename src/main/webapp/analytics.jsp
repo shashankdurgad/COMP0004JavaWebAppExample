@@ -109,6 +109,7 @@
             {
               int ci = e.indexOf(":");
               String rawLabel = e.substring(0, ci).trim();
+              <%-- Map raw CSV codes to display labels: M → Married, S → Single, blank → Unknown. --%>
               String statusLabel = rawLabel.equals("M") ? "Married" : rawLabel.equals("S") ? "Single" : rawLabel.isEmpty() ? "Unknown" : rawLabel;
               String raw = e.substring(ci + 1).trim().replace(" patient(s)", "").trim();
               int n = 0;
@@ -199,6 +200,7 @@
         {
           int colonIndex = entry.indexOf(":");
           String rawStatus = entry.substring(0, colonIndex).trim();
+          <%-- Same code-to-label mapping as the chart above. --%>
           String status = rawStatus.equals("M") ? "Married" : rawStatus.equals("S") ? "Single" : rawStatus.isEmpty() ? "Unknown" : rawStatus;
           String count  = entry.substring(colonIndex + 1).trim();
     %>

@@ -27,6 +27,7 @@
       ArrayList<String> patients = (ArrayList<String>) request.getAttribute("patientNames");
       if (patients != null)
       {
+        <%-- i tracks the row index for the /patient?row=N URL; for-each does not expose an index. --%>
         int i = 0;
         for (String patient : patients)
         {

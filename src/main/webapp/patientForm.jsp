@@ -15,6 +15,8 @@
     String formAction           = (String) request.getAttribute("formAction");
     int row                     = (Integer) request.getAttribute("row");
   %>
+  <%-- row is -1 for a new patient (add) or the 0-based index for an existing one (edit).
+       The hidden field passes it back to the servlet so it knows which row to update. --%>
   <form method="POST" action="<%= formAction %>">
     <input type="hidden" name="row" value="<%= row %>">
     <div class="form-stack" style="max-width: 520px;">
